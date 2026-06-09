@@ -11,9 +11,9 @@ export type TaskPageVoice = {
 
 export const taskPageVoices = {
   article: {
-    eyebrow: 'Reading desk',
-    headline: 'Long-form articles with a calmer editorial rhythm.',
-    description: 'Use this page for essays, guides, explainers, and story-led posts. The layout should feel like a publication, not a directory.',
+    eyebrow: 'Publishing desk',
+    headline: 'Editorial insights arranged for clear digital reading.',
+    description: 'Browse guides, explainers, essays, and story-led posts with a publication-style layout.',
     filterLabel: 'Choose article topic',
     secondaryNote: 'Reading surfaces need space, hierarchy, and fewer distractions.',
     chips: ['Editorial pacing', 'Topic filters', 'Long-read friendly'],
@@ -36,8 +36,8 @@ export const taskPageVoices = {
   },
   profile: {
     eyebrow: 'People and profiles',
-    headline: 'Profiles with identity, trust, and reputation cues.',
-    description: 'Profile pages should make people, brands, and entities feel discoverable rather than buried in a generic feed.',
+    headline: 'Professional profiles with identity, trust, and portfolio cues.',
+    description: 'Profile pages make creatives, brands, and businesses discoverable through image-led identity cards and clear summaries.',
     filterLabel: 'Filter profile category',
     secondaryNote: 'Make identity and credibility visible before the grid begins.',
     chips: ['Identity first', 'Trust cues', 'Creator/business cards'],
@@ -60,8 +60,8 @@ export const taskPageVoices = {
   },
   image: {
     eyebrow: 'Visual gallery',
-    headline: 'Image posts with a gallery-first browsing experience.',
-    description: 'Image pages should lead with visual impact, stronger cards, and a portfolio-like rhythm.',
+    headline: 'Image posts with a portfolio-first browsing experience.',
+    description: 'Image pages lead with visual impact, varied cards, and a polished gallery rhythm.',
     filterLabel: 'Filter visual category',
     secondaryNote: 'Let images carry the page before long text does.',
     chips: ['Gallery', 'Visual-first', 'Portfolio mood'],

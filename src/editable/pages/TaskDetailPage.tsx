@@ -222,26 +222,66 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
 
 function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const images = getImages(post)
+  const heroImage = images[0] || '/placeholder.svg?height=1200&width=1600'
+  const galleryImages = images.length ? images : [heroImage]
+  const category = categoryOf(post, 'Image')
+  const summary = summaryText(post)
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <BackLink task="image" />
-      <div className="mt-8 grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
-        <aside className="rounded-[2.5rem] border border-[var(--editable-border)] bg-white p-7 lg:sticky lg:top-24 lg:self-start">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--detail-bg)]"><Camera className="h-4 w-4" /> Image story</div>
-          <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-5xl">{post.title}</h1>
-          <p className="mt-5 text-base leading-8 opacity-70">{summaryText(post)}</p>
-          <BodyContent post={post} compact />
-        </aside>
-        <div className="columns-1 gap-5 space-y-5 md:columns-2">
-          {(images.length ? images : ['/placeholder.svg?height=900&width=1200']).map((image, index) => (
-            <figure key={`${image}-${index}`} className="break-inside-avoid overflow-hidden rounded-[2rem] border border-[var(--editable-border)] bg-white shadow-sm">
-              <img src={image} alt="" className="w-full object-cover" />
-              {index === 0 ? <figcaption className="p-5 text-sm font-bold opacity-65">Featured visual from this image post.</figcaption> : null}
+    <section className="relative overflow-hidden bg-[#f7f8f2] text-[#18221f]">
+      <div className="absolute inset-x-0 top-0 h-[42rem] bg-[#17382f]" />
+      <div className="absolute inset-x-0 top-[41.8rem] h-px bg-[#17382f]/10" />
+      <div className="relative mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <BackLink task="image" />
+        <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <figure className="relative min-h-[520px] overflow-hidden rounded-lg bg-[#0d1412] shadow-[0_28px_80px_rgba(8,24,20,0.26)] lg:min-h-[680px]">
+            <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#081411]/95 via-[#081411]/28 to-transparent" />
+            <div className="absolute left-4 right-4 top-4 flex flex-wrap items-center justify-between gap-3 sm:left-6 sm:right-6 sm:top-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#17382f]">
+                <Camera className="h-4 w-4" /> Image file
+              </span>
+              <span className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
+                {galleryImages.length} visual{galleryImages.length === 1 ? '' : 's'}
+              </span>
+            </div>
+            <figcaption className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-8 lg:p-10">
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-[#b8d8c8]">{category}</p>
+              <h1 className="mt-4 max-w-5xl text-4xl font-black leading-none sm:text-6xl lg:text-7xl">{post.title}</h1>
+              {summary ? <p className="mt-5 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">{summary}</p> : null}
+            </figcaption>
+          </figure>
+
+          <aside className="rounded-lg border border-white/15 bg-[#14231f] p-5 text-white shadow-[0_24px_70px_rgba(8,24,20,0.22)] lg:sticky lg:top-24 lg:self-start">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="rounded-md border border-white/12 bg-white/[0.08] p-4">
+                <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/50">Type</p>
+                <p className="mt-2 text-sm font-black">{category}</p>
+              </div>
+              <div className="rounded-md border border-white/12 bg-white/[0.08] p-4">
+                <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/50">Gallery</p>
+                <p className="mt-2 text-sm font-black">{galleryImages.length} image{galleryImages.length === 1 ? '' : 's'}</p>
+              </div>
+            </div>
+            <div className="mt-5 rounded-md border border-white/12 bg-[#f7f8f2] p-5 text-[#18221f]">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#507261]">Visual notes</p>
+              <BodyContent post={post} compact />
+            </div>
+          </aside>
+        </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {galleryImages.map((image, index) => (
+            <figure key={`${image}-${index}`} className={`${index === 0 ? 'md:col-span-2' : ''} overflow-hidden rounded-lg border border-[#17382f]/12 bg-white shadow-sm`}>
+              <img src={image} alt="" className={`${index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'} w-full object-cover`} />
+              <figcaption className="flex items-center justify-between gap-3 border-t border-[#17382f]/10 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#507261]">
+                <span>Frame {String(index + 1).padStart(2, '0')}</span>
+                {index === 0 ? <span>Featured</span> : null}
+              </figcaption>
             </figure>
           ))}
         </div>
+        <div className="mt-10"><RelatedPanel task="image" post={post} related={related} /></div>
       </div>
-      <div className="mt-10"><RelatedPanel task="image" post={post} related={related} /></div>
     </section>
   )
 }
@@ -297,22 +337,81 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const role = getField(post, ['role', 'designation', 'company', 'location'])
   const website = getField(post, ['website', 'url'])
   const email = getField(post, ['email'])
+  const avatar = images[0]
+  const gallery = images.slice(1)
+  const summary = summaryText(post)
+  const visualCount = images.length || 1
   return (
-    <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-16">
-      <aside className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.08)] lg:sticky lg:top-24 lg:self-start">
-        <BackLink task="profile" />
-        <div className="mx-auto mt-10 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
-          {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-16 w-16 opacity-45" />}
+    <section className="bg-[#f4f2ec] text-[#171a18]">
+      <div className="mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
+       
+        <div className="mt-6 overflow-hidden rounded-xl border border-[#171a18]/10 bg-white shadow-[0_30px_90px_rgba(23,26,24,0.1)]">
+          <div className="grid min-h-[520px] lg:grid-cols-[0.95fr_1.05fr]">
+            <aside className="relative flex flex-col justify-between bg-[#171a18] p-6 text-white sm:p-8 lg:p-10">
+              <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,.16)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:42px_42px]" />
+              <div className="relative">
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#d9c38b]">
+                  <UserRound className="h-4 w-4" /> Profile card
+                </p>
+                <div className="mt-10 flex items-end gap-5">
+                  <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/15 bg-white/10 sm:h-40 sm:w-40">
+                    {avatar ? <img src={avatar} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-16 w-16 text-white/45" />}
+                  </div>
+                  <div className="min-w-0 pb-1">
+                    <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">Member profile</p>
+                    <h1 className="mt-3 break-words text-4xl font-black leading-none sm:text-5xl">{post.title}</h1>
+                  </div>
+                </div>
+                {role ? <p className="mt-6 max-w-xl text-sm font-black uppercase tracking-[0.18em] text-[#d9c38b]">{role}</p> : null}
+                {summary ? <p className="mt-5 max-w-xl text-base leading-8 text-white/70">{summary}</p> : null}
+              </div>
+
+              <div className="relative mt-10 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-lg border border-white/12 bg-white/[0.08] p-4">
+                  <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/45">Gallery</p>
+                  <p className="mt-2 text-sm font-black">{visualCount} visual{visualCount === 1 ? '' : 's'}</p>
+                </div>
+                <div className="rounded-lg border border-white/12 bg-white/[0.08] p-4">
+                  <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/45">Contact</p>
+                  <p className="mt-2 text-sm font-black">{website || email ? 'Available' : 'Details inside'}</p>
+                </div>
+              </div>
+            </aside>
+
+            <article className="p-6 sm:p-8 lg:p-10">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {website ? (
+                  <Link href={website} target="_blank" rel="noreferrer" className="group rounded-lg border border-[#171a18]/10 bg-[#f4f2ec] p-5 transition hover:-translate-y-0.5 hover:bg-[#171a18] hover:text-white">
+                    <Globe2 className="h-5 w-5" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-[0.18em] opacity-55">Website</p>
+                    <p className="mt-2 truncate text-sm font-black">{website.replace(/^https?:\/\//, '')}</p>
+                  </Link>
+                ) : null}
+                {email ? (
+                  <a href={`mailto:${email}`} className="group rounded-lg border border-[#171a18]/10 bg-[#f4f2ec] p-5 transition hover:-translate-y-0.5 hover:bg-[#171a18] hover:text-white">
+                    <Mail className="h-5 w-5" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-[0.18em] opacity-55">Email</p>
+                    <p className="mt-2 truncate text-sm font-black">{email}</p>
+                  </a>
+                ) : null}
+              </div>
+
+              <div className="mt-7 rounded-lg border border-[#171a18]/10 bg-white p-1">
+                <div className="rounded-md bg-[#f4f2ec] p-5 sm:p-7">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#7c693d]">Profile notes</p>
+                  <BodyContent post={post} />
+                </div>
+              </div>
+
+              <ImageStrip images={gallery} label="Profile gallery" />
+            </article>
+          </div>
         </div>
-        <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.07em]">{post.title}</h1>
-        {role ? <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-[var(--detail-accent)]">{role}</p> : null}
-        <ContactAction website={website} email={email} />
-      </aside>
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-sm sm:p-10">
-        <BodyContent post={post} />
-        <ImageStrip images={images.slice(1)} label="Profile gallery" />
-        <RelatedPanel task="profile" post={post} related={related} />
-      </article>
+
+        <div className="mt-8">
+          <RelatedPanel task="profile" post={post} related={related} />
+        </div>
+      </div>
     </section>
   )
 }
@@ -375,7 +474,7 @@ function BadgeLine({ label, value }: { label: string; value: string }) {
   return <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm"><span className="font-black uppercase tracking-[0.16em] opacity-60">{label}</span><span className="font-black">{value}</span></div>
 }
 
-function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey; post: SitePost; related: SitePost[]; compact?: boolean }) {
+function RelatedPanel({ task, post: _post, related, compact = false }: { task: TaskKey; post: SitePost; related: SitePost[]; compact?: boolean }) {
   const taskConfig = getTaskConfig(task)
   return (
     <aside className="min-w-0 space-y-5">
@@ -385,7 +484,7 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
           <div className="mt-4 grid gap-3 text-sm font-bold opacity-75">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4" /> Task: {taskConfig?.label || task}</p>
             <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {SITE_CONFIG.name}</p>
-            {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
+            
           </div>
         </div>
       ) : null}

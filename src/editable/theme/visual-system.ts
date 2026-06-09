@@ -95,18 +95,18 @@ export const visualPresets = {
     shape: 'stickers, tabs, framed modules, playful dividers',
   },
   'visual-gallery': {
-    label: 'Visual Gallery',
-    mood: 'cinematic, image-led, immersive',
-    fontDirection: 'minimal sans with oversized display moments',
+    label: 'Publisher Gallery',
+    mood: 'digital publishing, image-led, practical',
+    fontDirection: 'rounded modern sans with heavy headline weight',
     colors: {
-      background: '#07101f',
-      foreground: '#f8fbff',
-      muted: '#a9b6c8',
-      primary: '#8df0c8',
-      accent: '#f2a0ff',
-      surface: '#101b2d',
+      background: '#ffffff',
+      foreground: '#111827',
+      muted: '#64748b',
+      primary: '#2f6df6',
+      accent: '#2f6df6',
+      surface: '#ffffff',
     },
-    shape: 'dark cards, large media, glass overlays',
+    shape: 'black header, blue publishing bands, white cards, square buttons',
   },
 } as const
 
@@ -143,7 +143,7 @@ export const visualSystem = {
     glass: 'border border-white/15 bg-white/10 backdrop-blur-xl',
     paper: 'border border-black/10 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)]',
     quiet: 'border border-black/10 bg-black/[0.03]',
-    dark: 'border border-white/10 bg-black/30 shadow-[0_24px_70px_rgba(0,0,0,0.25)]',
+    dark: 'border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.25)]',
   },
   layout: {
     page: 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8',

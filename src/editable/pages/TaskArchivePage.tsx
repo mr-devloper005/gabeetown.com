@@ -61,7 +61,7 @@ const taskDeck: Record<TaskKey, { icon: typeof FileText; archiveClass: string; p
   image: { icon: Camera, archiveClass: 'columns-1 gap-5 space-y-5 md:columns-2 xl:columns-3', promise: 'Gallery-first browsing with strong visuals and compact captions.', badge: 'Gallery' },
   sbm: { icon: Bookmark, archiveClass: 'grid gap-4 md:grid-cols-2 xl:grid-cols-3', promise: 'Bookmark cards stay mostly text-based so saved resources scan quickly.', badge: 'Bookmark' },
   pdf: { icon: Download, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Document cards surface file context, download intent, and summary.', badge: 'PDF' },
-  profile: { icon: UserRound, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-4', promise: 'Profile cards focus on identity, short bio, and direct discovery.', badge: 'Profile' },
+  profile: { icon: UserRound, archiveClass: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3', promise: 'Profile cards focus on identity, short bio, and direct discovery.', badge: 'Profile' },
 }
 
 export async function EditableTaskArchiveRoute({
@@ -270,13 +270,26 @@ function ProfileArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const avatar = getImages(post)[0]
   const role = getField(post, ['role', 'designation', 'company', 'location'])
   return (
-    <Link href={href} className="group rounded-[2rem] border border-[var(--editable-border)] bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-      <div className="mx-auto flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-[var(--archive-bg)] ring-1 ring-[var(--editable-border)]">
-        {avatar ? <img src={avatar} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-10 w-10 opacity-45" />}
+    <Link href={href} className="group overflow-hidden rounded-xl border border-[#171a18]/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative bg-[#171a18] p-5 text-white">
+        <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,.2)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.16)_1px,transparent_1px)] [background-size:34px_34px]" />
+        <div className="relative flex items-end gap-4">
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/15 bg-white/10">
+            {avatar ? <img src={avatar} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /> : <UserRound className="h-10 w-10 text-white/45" />}
+          </div>
+          <div className="min-w-0 pb-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#d9c38b]">Profile</p>
+            <h2 className="mt-2 line-clamp-2 text-2xl font-black leading-none">{post.title}</h2>
+          </div>
+        </div>
       </div>
-      <h2 className="mt-5 text-xl font-black leading-tight tracking-[-0.04em]">{post.title}</h2>
-      {role ? <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--archive-accent)]">{role}</p> : null}
-      <p className="mt-4 line-clamp-3 text-sm leading-6 opacity-65">{getSummary(post)}</p>
+      <div className="p-5">
+        {role ? <p className="text-xs font-black uppercase tracking-[0.16em] text-[#7c693d]">{role}</p> : null}
+        <p className="mt-4 line-clamp-3 text-sm leading-6 opacity-65">{getSummary(post)}</p>
+        <p className="mt-5 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-[#171a18]">
+          View profile <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+        </p>
+      </div>
     </Link>
   )
 }

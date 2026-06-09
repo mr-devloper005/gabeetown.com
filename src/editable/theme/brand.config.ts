@@ -14,7 +14,7 @@ export const slot4BrandConfig = {
   ogImage: siteIdentity.ogImage,
   accents:
     productKind === 'visual'
-      ? { primary: '#8df0c8', surface: '#07101f' }
+      ? { primary: '#2f6df6', surface: '#ffffff' }
       : productKind === 'editorial'
         ? { primary: '#241711', surface: '#fbf6ee' }
         : productKind === 'directory'

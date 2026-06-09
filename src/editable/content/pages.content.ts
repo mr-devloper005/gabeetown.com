@@ -1,31 +1,29 @@
-import { slot4BrandConfig } from '@/editable/theme/brand.config'
-
 export const pagesContent = {
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
-      description: 'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
-      openGraphDescription: 'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+      title: 'Visual portfolios, profiles, and digital publishing',
+      description: 'Explore image-rich posts, professional profiles, listings, articles, and resources through a polished publishing experience.',
+      openGraphTitle: 'Visual portfolios, profiles, and digital publishing',
+      openGraphDescription: 'Discover visual posts, professional profiles, listings, and resources through one polished publishing experience.',
+      keywords: ['visual portfolios', 'professional profiles', 'digital publishing', 'content discovery'],
     },
     hero: {
-      badge: 'Latest stories and visuals',
-      title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
-      description: 'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
-      primaryCta: { label: 'Read latest stories', href: '/article' },
-      secondaryCta: { label: 'Explore visuals', href: '/image' },
-      searchPlaceholder: 'Search stories, visuals, listings, and more',
+      badge: 'Digital publishing platform',
+      title: ['Digital publishing software', 'to grow your audience.'],
+      description: 'Explore image-led posts, professional profiles, resources, and listings through a polished visual publishing experience.',
+      primaryCta: { label: 'View products', href: '/image' },
+      secondaryCta: { label: 'View features', href: '/profile' },
+      searchPlaceholder: 'Search profiles, visuals, listings, and more',
       focusLabel: 'Focus',
       featureCardBadge: 'latest cover rotation',
       featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
-      featureCardDescription: 'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      featureCardDescription: 'Recent images, profiles, and resources stay at the center of the experience without changing platform behavior.',
     },
     intro: {
       badge: 'About the platform',
-      title: 'Built for reading, browsing, and connecting different kinds of content.',
+      title: 'Built for visual browsing, profile discovery, and connected content.',
       paragraphs: [
-        'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
+        'This site brings together image-led browsing, article-style reading, professional profiles, and structured discovery so visitors can move naturally between content types.',
         'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
         'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
       ],
@@ -41,10 +39,10 @@ export const pagesContent = {
     },
     cta: {
       badge: 'Start exploring',
-      title: 'Explore articles, visuals, and resources through one connected experience.',
-      description: 'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
-      primaryCta: { label: 'Browse Articles', href: '/article' },
-      secondaryCta: { label: 'Contact Sales', href: '/contact' },
+      title: 'Explore visuals, profiles, and resources through one connected experience.',
+      description: 'Move between image-led posts, profiles, articles, listings, and resources through one clear visual system.',
+      primaryCta: { label: 'Browse Visuals', href: '/image' },
+      secondaryCta: { label: 'Contact Us', href: '/contact' },
     },
     taskSection: {
       heading: 'Latest {label}',
@@ -53,16 +51,16 @@ export const pagesContent = {
   },
   about: {
     badge: 'Our Story',
-    title: 'A calmer, clearer way to explore content.',
-    description: `${slot4BrandConfig.siteName} is built to make long-form reading, visual discovery, and supporting resources feel like one unified experience.`,
+    title: 'A polished way to explore visual work and professional profiles.',
+    description: 'Gabeetown Publisher is built to make visual discovery, professional profiles, articles, and supporting resources feel like one unified experience.',
     paragraphs: [
       'Instead of splitting everything into disconnected pages, the platform keeps related content easy to move through and easy to understand.',
       'Whether someone starts with an article, listing, image post, or resource page, they can continue exploring without losing context.',
     ],
     values: [
       {
-        title: 'Reading-first experience',
-        description: 'We prioritize clarity, pacing, and structure so people can read, browse, and discover without noise.',
+        title: 'Image-first discovery',
+        description: 'We prioritize clarity, pacing, and structure so people can browse portfolios, posts, and profiles without noise.',
       },
       {
         title: 'Connected content surfaces',
@@ -75,9 +73,9 @@ export const pagesContent = {
     ],
   },
   contact: {
-    eyebrow: `Contact ${slot4BrandConfig.siteName}`,
-    title: 'A support page that matches the product, not a generic contact form.',
-    description: 'Tell us what you are trying to publish, fix, or launch. We will route it through the right lane instead of forcing every request into the same support bucket.',
+    eyebrow: 'Contact Gabeetown Publisher',
+    title: 'Let us know what you want to publish, showcase, or improve.',
+    description: 'Tell us about the profile, visual post, resource, or listing you are working on and we will route your note clearly.',
     formTitle: 'Send a message',
   },
 
@@ -88,9 +86,9 @@ export const pagesContent = {
     },
     hero: {
       badge: 'Search the archive',
-      title: 'Find stories, listings, visuals, and resources faster.',
+      title: 'Find visuals, listings, and resources faster.',
       description: 'Use keywords, categories, and content types to discover posts from every active section of the site.',
-      placeholder: 'Search by keyword, topic, category, or title',
+      placeholder: 'Search by keyword, profile, category, or title',
     },
     resultsTitle: 'Latest searchable content',
   },

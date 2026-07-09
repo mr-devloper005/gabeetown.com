@@ -169,7 +169,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
               <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
+              <div className="mt-5 max-w-3xl text-base leading-8 opacity-70 [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(summaryText(post)) }} />
             </div>
           </div>
           <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
@@ -222,67 +222,145 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
 
 function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const images = getImages(post)
-  const heroImage = images[0] || '/placeholder.svg?height=1200&width=1600'
-  const galleryImages = images.length ? images : [heroImage]
+  const heroImage = images[0]
+  const gallery = images.slice(1)
   const category = categoryOf(post, 'Image')
   const summary = summaryText(post)
+  const backgroundImages = Array.from({ length: 16 }).map((_, i) => images[i % Math.max(images.length, 1)] || '/placeholder.svg?height=900&width=1200')
   return (
-    <section className="relative overflow-hidden bg-[#f7f8f2] text-[#18221f]">
-      <div className="absolute inset-x-0 top-0 h-[42rem] bg-[#17382f]" />
-      <div className="absolute inset-x-0 top-[41.8rem] h-px bg-[#17382f]/10" />
-      <div className="relative mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-        <BackLink task="image" />
-        <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <figure className="relative min-h-[520px] overflow-hidden rounded-lg bg-[#0d1412] shadow-[0_28px_80px_rgba(8,24,20,0.26)] lg:min-h-[680px]">
-            <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#081411]/95 via-[#081411]/28 to-transparent" />
-            <div className="absolute left-4 right-4 top-4 flex flex-wrap items-center justify-between gap-3 sm:left-6 sm:right-6 sm:top-6">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#17382f]">
-                <Camera className="h-4 w-4" /> Image file
-              </span>
-              <span className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
-                {galleryImages.length} visual{galleryImages.length === 1 ? '' : 's'}
-              </span>
+    <>
+      <section className="gabeetown-black-section relative overflow-hidden">
+        <div className="absolute inset-0 grid grid-cols-3 opacity-40 sm:grid-cols-5 lg:grid-cols-8">
+          {backgroundImages.map((src, index) => (
+            <img key={index} src={src} alt="" className="h-40 w-full object-cover sm:h-56 lg:h-72" />
+          ))}
+        </div>
+        <div className="absolute inset-0 bg-black/65" />
+        <div className="relative mx-auto max-w-[1120px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <Link href="/images" className="inline-flex items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-white backdrop-blur transition hover:bg-white/20">
+            <ArrowLeft className="h-4 w-4" /> Back to gallery
+          </Link>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-white backdrop-blur">
+                <Camera className="h-4 w-4" /> {category}
+              </div>
+              <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+                {post.title}
+              </h1>
+              {summary ? (
+                <div
+                  className="mt-7 max-w-xl text-xl font-semibold leading-8 text-white/90 [&_a]:underline"
+                  dangerouslySetInnerHTML={{ __html: formatPlainText(summary) }}
+                />
+              ) : null}
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link href="/images" className="rounded-md bg-white px-7 py-4 text-base font-bold text-[#2f6df6] transition hover:-translate-y-0.5">Browse gallery</Link>
+                <Link href="/contact" className="rounded-md bg-[var(--slot4-green)] px-7 py-4 text-base font-bold text-white transition hover:-translate-y-0.5">Get in touch</Link>
+              </div>
             </div>
-            <figcaption className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-8 lg:p-10">
-              <p className="text-xs font-black uppercase tracking-[0.24em] text-[#b8d8c8]">{category}</p>
-              <h1 className="mt-4 max-w-5xl text-4xl font-black leading-none sm:text-6xl lg:text-7xl">{post.title}</h1>
-              {summary ? <p className="mt-5 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">{summary}</p> : null}
-            </figcaption>
-          </figure>
+            <div className="relative">
+              {heroImage ? (
+                <div className="rounded-md border-[10px] border-black bg-black p-1 shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
+                  <img src={heroImage} alt={post.title} className="aspect-[4/3] w-full rounded-sm object-cover" />
+                </div>
+              ) : null}
+              {gallery[0] ? (
+                <div className="absolute -bottom-6 -left-6 hidden h-32 w-32 overflow-hidden rounded-md border-[6px] border-black bg-white shadow-2xl sm:block">
+                  <img src={gallery[0]} alt="" className="h-full w-full object-cover" />
+                </div>
+              ) : null}
+              {gallery[1] ? (
+                <div className="absolute -right-6 -top-6 hidden h-28 w-28 overflow-hidden rounded-md border-[6px] border-black bg-white shadow-2xl sm:block">
+                  <img src={gallery[1]} alt="" className="h-full w-full object-cover" />
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+        <div className="relative border-t border-white/10 bg-black px-4 py-5">
+          <div className="mx-auto grid max-w-[1120px] gap-4 text-center text-white sm:grid-cols-3">
+            <div><p className="text-lg font-black">{images.length}</p><p className="text-base font-semibold">Images in this story</p></div>
+            <div><p className="text-lg font-black">{category}</p><p className="text-base font-semibold">Category</p></div>
+            <div><p className="text-lg font-black">{related.length}+</p><p className="text-base font-semibold">Related visuals</p></div>
+          </div>
+        </div>
+      </section>
 
-          <aside className="rounded-lg border border-white/15 bg-[#14231f] p-5 text-white shadow-[0_24px_70px_rgba(8,24,20,0.22)] lg:sticky lg:top-24 lg:self-start">
-            <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-md border border-white/12 bg-white/[0.08] p-4">
-                <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/50">Type</p>
-                <p className="mt-2 text-sm font-black">{category}</p>
-              </div>
-              <div className="rounded-md border border-white/12 bg-white/[0.08] p-4">
-                <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-white/50">Gallery</p>
-                <p className="mt-2 text-sm font-black">{galleryImages.length} image{galleryImages.length === 1 ? '' : 's'}</p>
-              </div>
-            </div>
-            <div className="mt-5 rounded-md border border-white/12 bg-[#f7f8f2] p-5 text-[#18221f]">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#507261]">Visual notes</p>
-              <BodyContent post={post} compact />
+      <section className="bg-white">
+        <div className="mx-auto grid max-w-[1120px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_0.55fr] lg:px-8">
+          <article className="min-w-0 text-black">
+            <h2 className="text-3xl font-black tracking-[-0.04em]">About this image story</h2>
+            <div className="article-content mt-6 text-lg font-medium leading-8 text-black/80 [&_a]:text-[#2f6df6] [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
+          </article>
+          <aside className="space-y-5">
+            <div className="rounded-md border border-black/10 bg-[#f6f7fb] p-6 text-black">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#2f6df6]">Story details</p>
+              <dl className="mt-5 space-y-3 text-sm font-semibold text-black/75">
+                <div className="flex items-center justify-between gap-3"><dt>Category</dt><dd className="font-black text-black">{category}</dd></div>
+                <div className="flex items-center justify-between gap-3"><dt>Images</dt><dd className="font-black text-black">{images.length}</dd></div>
+                <div className="flex items-center justify-between gap-3"><dt>Publisher</dt><dd className="font-black text-black">{SITE_CONFIG.name}</dd></div>
+              </dl>
             </div>
           </aside>
         </div>
+      </section>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {galleryImages.map((image, index) => (
-            <figure key={`${image}-${index}`} className={`${index === 0 ? 'md:col-span-2' : ''} overflow-hidden rounded-lg border border-[#17382f]/12 bg-white shadow-sm`}>
-              <img src={image} alt="" className={`${index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'} w-full object-cover`} />
-              <figcaption className="flex items-center justify-between gap-3 border-t border-[#17382f]/10 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#507261]">
-                <span>Frame {String(index + 1).padStart(2, '0')}</span>
-                {index === 0 ? <span>Featured</span> : null}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-        <div className="mt-10"><RelatedPanel task="image" post={post} related={related} /></div>
-      </div>
-    </section>
+      {gallery.length ? (
+        <section className="gabeetown-teal-section overflow-hidden">
+          <div className="mx-auto max-w-[1120px] px-4 py-16 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <h2 className="text-4xl font-black tracking-[-0.04em]">Full gallery</h2>
+                <p className="mt-4 max-w-2xl text-lg font-semibold leading-7">Every image in this story, laid out in a comfortable masonry.</p>
+              </div>
+              <div className="rounded-md bg-white/15 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] backdrop-blur">
+                {gallery.length} visual{gallery.length === 1 ? '' : 's'}
+              </div>
+            </div>
+            <div className="mt-12 columns-1 gap-5 space-y-5 md:columns-2 lg:columns-3">
+              {gallery.map((src, index) => (
+                <div key={`${src}-${index}`} className={`mb-5 break-inside-avoid overflow-hidden rounded-md bg-white/10 p-1 shadow-lg ${index % 3 === 0 ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                  <img src={src} alt="" className="h-full w-full rounded-sm object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {related.length ? (
+        <section className="gabeetown-blue-section">
+          <div className="mx-auto max-w-[1120px] px-4 py-20 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <h2 className="text-4xl font-black tracking-[-0.04em]">More visual stories</h2>
+                <p className="mt-4 max-w-2xl text-lg font-semibold leading-7">Discover more image-rich collections curated by {SITE_CONFIG.name}.</p>
+              </div>
+              <Link href="/images" className="rounded-md bg-white px-6 py-3 text-sm font-bold text-[#2f6df6]">View all</Link>
+            </div>
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {related.map((item, index) => {
+                const cover = getImages(item)[0] || '/placeholder.svg?height=900&width=1200'
+                return (
+                  <Link key={item.id || item.slug} href={buildPostUrl('image', item.slug)} className="group relative min-h-[360px] overflow-hidden rounded-md bg-black text-white shadow-[0_22px_70px_rgba(0,0,0,0.25)]">
+                    <img src={cover} alt="" className="absolute inset-0 h-full w-full object-cover opacity-75 transition duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <div className="relative z-10 flex min-h-[360px] flex-col justify-end p-6">
+                      <span className="inline-flex w-fit items-center gap-2 rounded-md bg-white/15 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur">
+                        <Camera className="h-3 w-3" /> {categoryOf(item, 'Visual')}
+                      </span>
+                      <h3 className="mt-4 line-clamp-3 text-xl font-black leading-tight tracking-[-0.03em]">{item.title}</h3>
+                      <p className="mt-2 text-xs font-black uppercase tracking-wide opacity-85">Story {String(index + 1).padStart(2, '0')} · {SITE_CONFIG.name}</p>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </>
   )
 }
 
@@ -294,7 +372,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
         <BackLink task="sbm" />
         <div className="mt-10 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><Bookmark className="h-9 w-9" /></div>
         <h1 className="mt-7 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-        <p className="mt-5 max-w-3xl text-lg leading-9 opacity-70">{summaryText(post)}</p>
+        <div className="mt-5 max-w-3xl text-lg leading-9 opacity-70 [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(summaryText(post)) }} />
         {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-5 py-3 text-sm font-black text-[var(--detail-bg)]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
         <BodyContent post={post} />
       </article>
@@ -363,7 +441,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
                   </div>
                 </div>
                 {role ? <p className="mt-6 max-w-xl text-sm font-black uppercase tracking-[0.18em] text-[#d9c38b]">{role}</p> : null}
-                {summary ? <p className="mt-5 max-w-xl text-base leading-8 text-white/70">{summary}</p> : null}
+                {summary ? <div className="mt-5 max-w-xl text-base leading-8 text-white/70 [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(summary) }} /> : null}
               </div>
 
               <div className="relative mt-10 grid gap-3 sm:grid-cols-2">

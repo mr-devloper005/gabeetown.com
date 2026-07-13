@@ -51,7 +51,7 @@ const getImages = (post: SitePost) => {
 
 const getBody = (post: SitePost) => {
   const content = getContent(post)
-  return asText(content.body) || asText(content.description) || asText(content.details) || post.summary || 'Details will appear here once available.'
+  return asText(content.body) || asText(content.details) || ''
 }
 
 const escapeHtml = (value: string) => value
@@ -287,24 +287,32 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
         </div>
       </section>
 
-      <section className="bg-white">
-        <div className="mx-auto grid max-w-[1120px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_0.55fr] lg:px-8">
-          <article className="min-w-0 text-black">
-            <h2 className="text-3xl font-black tracking-[-0.04em]">About this image story</h2>
-            <div className="article-content mt-6 text-lg font-medium leading-8 text-black/80 [&_a]:text-[#2f6df6] [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
-          </article>
-          <aside className="space-y-5">
-            <div className="rounded-md border border-black/10 bg-[#f6f7fb] p-6 text-black">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#2f6df6]">Story details</p>
-              <dl className="mt-5 space-y-3 text-sm font-semibold text-black/75">
-                <div className="flex items-center justify-between gap-3"><dt>Category</dt><dd className="font-black text-black">{category}</dd></div>
-                <div className="flex items-center justify-between gap-3"><dt>Images</dt><dd className="font-black text-black">{images.length}</dd></div>
-                <div className="flex items-center justify-between gap-3"><dt>Publisher</dt><dd className="font-black text-black">{SITE_CONFIG.name}</dd></div>
-              </dl>
+      {(() => {
+        const body = getBody(post)
+        const hasBody = body && body !== summary
+        return (
+          <section className="bg-white">
+            <div className={`mx-auto grid max-w-[1120px] gap-12 px-4 ${hasBody ? 'py-16' : 'py-10'} sm:px-6 ${hasBody ? 'lg:grid-cols-[1fr_0.55fr]' : ''} lg:px-8`}>
+              {hasBody ? (
+                <article className="min-w-0 text-black">
+                  <h2 className="text-3xl font-black tracking-[-0.04em]">About this image story</h2>
+                  <div className="article-content mt-6 text-lg font-medium leading-8 text-black/80 [&_a]:text-[#2f6df6] [&_a]:underline" dangerouslySetInnerHTML={{ __html: formatPlainText(body) }} />
+                </article>
+              ) : null}
+              <aside className="space-y-5">
+                <div className="rounded-md border border-black/10 bg-[#f6f7fb] p-6 text-black">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#2f6df6]">Story details</p>
+                  <dl className="mt-5 space-y-3 text-sm font-semibold text-black/75">
+                    <div className="flex items-center justify-between gap-3"><dt>Category</dt><dd className="font-black text-black">{category}</dd></div>
+                    <div className="flex items-center justify-between gap-3"><dt>Images</dt><dd className="font-black text-black">{images.length}</dd></div>
+                    <div className="flex items-center justify-between gap-3"><dt>Publisher</dt><dd className="font-black text-black">{SITE_CONFIG.name}</dd></div>
+                  </dl>
+                </div>
+              </aside>
             </div>
-          </aside>
-        </div>
-      </section>
+          </section>
+        )
+      })()}
 
       {gallery.length ? (
         <section className="gabeetown-teal-section overflow-hidden">
@@ -495,7 +503,10 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
 }
 
 function BodyContent({ post, compact = false }: { post: SitePost; compact?: boolean }) {
-  return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
+  const body = getBody(post)
+  const summary = summaryText(post)
+  if (!body || body === summary) return null
+  return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(body) }} />
 }
 
 function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {

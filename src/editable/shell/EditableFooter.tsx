@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { ArrowUpRight, LogOut, ShieldCheck } from 'lucide-react'
-import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
@@ -10,7 +9,6 @@ const displayName = 'Gabeetown Publisher'
 
 export function EditableFooter() {
   const { session, logout } = useEditableLocalAuthSession()
-  const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled).slice(0, 4)
   const year = new Date().getFullYear()
   const columns = [
     {

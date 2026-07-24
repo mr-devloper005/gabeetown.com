@@ -279,9 +279,8 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
           </div>
         </div>
         <div className="relative border-t border-white/10 bg-black px-4 py-5">
-          <div className="mx-auto grid max-w-[1120px] gap-4 text-center text-white sm:grid-cols-3">
+          <div className="mx-auto grid max-w-[1120px] gap-4 text-center text-white sm:grid-cols-2">
             <div><p className="text-lg font-black">{images.length}</p><p className="text-base font-semibold">Images in this story</p></div>
-            <div><p className="text-lg font-black">{category}</p><p className="text-base font-semibold">Category</p></div>
             <div><p className="text-lg font-black">{related.length}+</p><p className="text-base font-semibold">Related visuals</p></div>
           </div>
         </div>
